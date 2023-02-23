@@ -7,7 +7,7 @@
 #include<thread>
 //TODO
 //intersection of function
-int g_oneStep = 30.0f;
+int g_oneStep = 50.0f;
 float g_lineLength = 1000;
 bool g_fieldHasChanged = true;
 int g_width = 800;

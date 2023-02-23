@@ -287,7 +287,7 @@ void Function::calculate(sf::RenderWindow& window,float lineLength,int oneStep)
 			first = true;
 			continue;
 		}
-		float j = y * 30.0f;
+		float j = y * oneStep;
 		if (first)
 		{
 			oldPosDot.x = i;

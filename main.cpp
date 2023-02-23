@@ -70,7 +70,7 @@ int main(int argc, char* argv[])
                 g_fieldHasChanged = true;
             }
         }
-        ImGui::SFML::Update(window, clock.getElapsedTime());
+        ImGui::SFML::Update(window, clock.restart());
         if (g_fieldHasChanged)
         {
             g_lineLength = abs(window.getView().getCenter().x) + abs(window.getView().getSize().x / 2.0f);

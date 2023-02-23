@@ -1,0 +1,9 @@
+[submodule "libs/ImGUI"]
+	path = libs/ImGUI
+	url = https://github.com/ocornut/imgui.git
+[submodule "libs/SFML-2.5.1"]
+	path = libs/SFML-2.5.1
+	url = https://github.com/SFML/SFML.git
+[submodule "libs/imgui-sfml-master"]
+	path = libs/imgui-sfml-master
+	url = https://github.com/SFML/imgui-sfml.git

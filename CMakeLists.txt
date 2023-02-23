@@ -10,7 +10,7 @@ SET(TARGET_SRC
 	libs/imgui/imgui_draw.cpp
 	libs/imgui/imgui_tables.cpp
 	libs/imgui/imgui_demo.cpp
-	libs/imgui/imgui-sfml-master/imgui-SFML.cpp
+	libs/imgui-sfml-master/imgui-SFML.cpp
 )
 add_executable(FunctionGraph ${TARGET_SRC})
 
@@ -30,7 +30,7 @@ set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake_modules")
 find_package(SFML 2.5 REQUIRED graphics network audio window system)
 find_package(OpenGL)
 target_include_directories(FunctionGraph PRIVATE include/ImGUI)
-target_include_directories(FunctionGraph PUBLIC libs/imgui/imgui-sfml-master)
+target_include_directories(FunctionGraph PUBLIC libs/imgui-sfml-master)
 target_include_directories(FunctionGraph PUBLIC src/)
 
 message(STATUS "Fetching ImGui-SFML...")
@@ -40,5 +40,5 @@ set(IMGUI_DIR ${imgui_SOURCE_DIR})
 set(IMGUI_SFML_FIND_SFML OFF)
 set(IMGUI_SFML_IMGUI_DEMO ON)
 
-add_subdirectory(libs/imgui/imgui-sfml-master)
+add_subdirectory(libs/imgui-sfml-master)
 

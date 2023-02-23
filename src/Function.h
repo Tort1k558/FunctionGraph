@@ -76,8 +76,8 @@ private:
     std::map<std::string, std::function<double(std::stack<double>&)>> m_ops;
     std::vector<MyLine> m_lines;
     std::string m_newName;
-    std::vector<std::pair<double, double>> m_intersectionWithAxisX;
-    std::vector<std::pair<double, double>> m_intersectionWithAxisY;
+    std::set<std::pair<double, double>> m_intersectionWithAxisX;
+    std::set<std::pair<double, double>> m_intersectionWithAxisY;
     int m_rgb[3]{};
     double m_x = 0;
     double m_y = 0;

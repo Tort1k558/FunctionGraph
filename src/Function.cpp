@@ -7,6 +7,7 @@
 #include<iostream>
 #include<SFML/Graphics.hpp>
 #include<imgui.h>
+#include <iomanip>
 
 const double PI = 3.141592653589793238462643383279;
 const double e = 2.718281828459045235360287471352;
@@ -262,8 +263,6 @@ double Function::findValueY()
 void Function::calculate(sf::RenderWindow& window,float lineLength,int oneStep)
 {
 	m_lines.clear();
-	m_intersectionWithAxisX.clear();
-	m_intersectionWithAxisY.clear();
 	sf::View view = window.getView();
 	sf::Vector2f sizeOfViewport = view.getSize();
 	sf::Vector2f centerOfViewport = view.getCenter();
@@ -279,9 +278,9 @@ void Function::calculate(sf::RenderWindow& window,float lineLength,int oneStep)
 		float x = i / oneStep;
 		m_variables["x"] = x;
 		float y = findValueY();
-		if (y == 0)
+		if (y == 0.0f)
 		{
-			m_intersectionWithAxisX.push_back({ x,y });
+			m_intersectionWithAxisX.insert({ x,y });
 		}
 		if (y == INFINITY)
 		{
@@ -335,9 +334,9 @@ void Function::draw(sf::RenderWindow& window, float lineLength, int oneStep)
 		recalculate();
 	}
 	std::string intersectionWithAxisX("IntersectionsWithAxisX:");
-	for (size_t i = 0; i < m_intersectionWithAxisX.size(); i++)
+	for (const auto &item : m_intersectionWithAxisX)
 	{
-		intersectionWithAxisX += std::string("{" + std::to_string(m_intersectionWithAxisX[i].first) + "," + std::to_string(m_intersectionWithAxisX[i].second) + "};");
+		intersectionWithAxisX += std::string("{" + std::to_string(item.first) + "," + std::to_string(item.second) + "};");
 	}
 	ImGui::Text(intersectionWithAxisX.c_str());
 	ImGui::End();

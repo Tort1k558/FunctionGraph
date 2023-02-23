@@ -6,7 +6,7 @@
 #include"Function.h"
 #include<thread>
 //TODO
-//intesection of function
+//intersection of function
 int g_oneStep = 30.0f;
 float g_lineLength = 1000;
 bool g_fieldHasChanged = true;
@@ -150,8 +150,6 @@ int main(int argc, char* argv[])
             {
                 oldPosMouse.x = event.mouseButton.x;
                 oldPosMouse.y = event.mouseButton.y;
-                std::cout << "X: " << window.mapPixelToCoords(sf::Mouse::getPosition(window)).x << std::endl;
-                std::cout << "Y: " << window.mapPixelToCoords(sf::Mouse::getPosition(window)).y << std::endl;
             }
             if (event.type == sf::Event::MouseButtonReleased)
             {
@@ -186,7 +184,6 @@ int main(int argc, char* argv[])
         }
         DrawField(window);
         ImGui::Begin("FunctionGraph");
-        ImGui::SliderFloat("LineLength", &g_lineLength,1,2000);
         ImGui::SliderInt("OneStep", &g_oneStep,1,50);
 
         ImGui::InputText("New Function name", newFuncName, 255);

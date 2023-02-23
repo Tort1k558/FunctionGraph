@@ -14,7 +14,7 @@ SET(TARGET_SRC
 )
 add_executable(FunctionGraph ${TARGET_SRC})
 
-set(SFML_DIR "C:/Users/Tort1k/source/repos/FunctionGraph/libs/SFML-2.5.1/lib/cmake/SFML")
+set(SFML_DIR "${CMAKE_CURRENT_SOURCE_DIR}/libs/SFML-2.5.1/lib/cmake/SFML")
  
 target_compile_features(FunctionGraph PRIVATE cxx_std_17)
 
@@ -35,7 +35,7 @@ target_include_directories(FunctionGraph PUBLIC src/)
 
 message(STATUS "Fetching ImGui-SFML...")
 
-set(imgui_SOURCE_DIR "C:/Users/Tort1k/source/repos/FunctionGraph/libs/ImGUI")
+set(imgui_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/libs/ImGUI")
 set(IMGUI_DIR ${imgui_SOURCE_DIR})
 set(IMGUI_SFML_FIND_SFML OFF)
 set(IMGUI_SFML_IMGUI_DEMO ON)

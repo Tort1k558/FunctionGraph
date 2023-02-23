@@ -107,7 +107,7 @@ int main(int argc, char* argv[])
 {
     int width = 800;
     int height = 600;
-    sf::RenderWindow window(sf::VideoMode(width, height), "SFML works!");
+    sf::RenderWindow window(sf::VideoMode(width, height), "Function Graph");
     
     sf::View view = window.getView();
     view.setCenter({ 0.0f,0.0f });
@@ -146,12 +146,12 @@ int main(int argc, char* argv[])
                 window.setView(view);
                 g_fieldHasChanged = true;
             }
-            if(event.type == sf::Event::MouseButtonPressed)
+            if(event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Right)
             {
                 oldPosMouse.x = event.mouseButton.x;
                 oldPosMouse.y = event.mouseButton.y;
             }
-            if (event.type == sf::Event::MouseButtonReleased)
+            if (event.type == sf::Event::MouseButtonReleased && event.mouseButton.button == sf::Mouse::Right)
             {
                 float deltaX = oldPosMouse.x - event.mouseButton.x;
                 float deltaY = oldPosMouse.y - event.mouseButton.y;
@@ -201,8 +201,6 @@ int main(int argc, char* argv[])
         {
             functions.erase(functions.begin()+ itemToDelete);
         }
-        std::string fps("FPS: " + std::to_string(1000.0f / clock.restart().asMilliseconds()));
-        ImGui::Text(fps.c_str());
         ImGui::End();
 
         ImGui::SFML::Render(window);

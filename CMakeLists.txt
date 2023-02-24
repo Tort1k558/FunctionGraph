@@ -5,6 +5,8 @@ SET(TARGET_SRC
 	main.cpp
 	src/Function.cpp
 	src/Function.h
+	src/Line.cpp
+	src/Line.h
 	libs/imgui/imgui.cpp
 	libs/imgui/imgui_widgets.cpp
 	libs/imgui/imgui_draw.cpp

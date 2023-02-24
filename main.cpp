@@ -8,7 +8,6 @@
 //TODO
 //intersection of function
 int g_oneStep = 50.0f;
-float g_lineLength = 1000;
 bool g_fieldHasChanged = true;
 int g_width = 800;
 int g_height = 600;
@@ -73,11 +72,6 @@ int main(int argc, char* argv[])
         ImGui::SFML::Update(window, clock.restart());
         if (g_fieldHasChanged)
         {
-            g_lineLength = abs(window.getView().getCenter().x) + abs(window.getView().getSize().x / 2.0f);
-            if ((abs(window.getView().getCenter().y) + abs(window.getView().getSize().y / 2.0f)) > g_lineLength)
-            {
-                g_lineLength = abs(window.getView().getCenter().y) + abs(window.getView().getSize().y / 2.0f);
-            }
             for (size_t i = 0; i < functions.size(); i++)
             {
                 functions[i].recalculate();
@@ -87,7 +81,7 @@ int main(int argc, char* argv[])
         }
         for (size_t i = 0; i < functions.size(); i++)
         {
-            functions[i].draw(window, g_lineLength, g_oneStep);
+            functions[i].draw(window, g_oneStep);
         }
         DrawField(window);
         ImGui::Begin("FunctionGraph");
@@ -122,7 +116,7 @@ int main(int argc, char* argv[])
 }
 void DrawField(sf::RenderWindow& window)
 {
-    static std::vector<MyLine> lines;
+    static std::vector<Line> lines;
     static std::vector<sf::Text> texts;
     sf::Font font;
     font.loadFromFile("1.ttf");
@@ -133,29 +127,33 @@ void DrawField(sf::RenderWindow& window)
     sf::Vector2f sizeOfViewport = view.getSize();
     sf::Vector2f centerOfViewport = view.getCenter();
     sf::Vector2f bordersOfViewX = { centerOfViewport.x - sizeOfViewport.x / 2.0f,centerOfViewport.x + sizeOfViewport.x / 2.0f };
+    sf::Vector2f bordersOfViewY = { centerOfViewport.y - sizeOfViewport.y / 2.0f,centerOfViewport.y + sizeOfViewport.y / 2.0f };
     if (g_fieldHasChanged)
     {
         lines.clear();
         texts.clear();
         const int indent = 5;
-
+        std::cout << "X1: " << bordersOfViewX.x << std::endl;
+        std::cout << "X2: " << bordersOfViewX.y << std::endl;
         float widthIndentation = 0.0f;
-        for (size_t i = 0; i < g_lineLength / g_oneStep; i++)
+        //left
+        for (int i = 0; i > bordersOfViewX.x / g_oneStep; i--)
         {
-            MyLine line(widthIndentation, indent, widthIndentation, -indent);
+            Line line(widthIndentation, indent, widthIndentation, -indent);
             lines.push_back(line);
 
-            text.setString('-' + std::to_string(i));
+            text.setString(std::to_string(i));
             sf::Vertex* textPos = line.getVertices();
             textPos->position.y -= 8;
             text.setPosition(textPos->position);
             texts.push_back(sf::Text(text));
             widthIndentation -= g_oneStep;
         }
+        //right
         widthIndentation = 0.0f;
-        for (size_t i = 0; i < g_lineLength / g_oneStep; i++)
+        for (int i = 0; i < bordersOfViewX.y / g_oneStep; i++)
         {
-            MyLine line(widthIndentation, indent, widthIndentation, -indent);
+            Line line(widthIndentation, indent, widthIndentation, -indent);
             lines.push_back(line);
             text.setString(std::to_string(i));
             sf::Vertex* textPos = line.getVertices();
@@ -167,13 +165,15 @@ void DrawField(sf::RenderWindow& window)
             }
             widthIndentation += g_oneStep;
         }
-        sf::Vector2f bordersOfViewY = { centerOfViewport.y - sizeOfViewport.y / 2.0f,centerOfViewport.y + sizeOfViewport.y / 2.0f };
+        std::cout << "Y1: " << bordersOfViewY.x << std::endl;
+        std::cout << "Y2: " << bordersOfViewY.y << std::endl;
+        //up
         float heightIndentation = 0.0f;
-        for (size_t i = 0; i < g_lineLength / g_oneStep; i++)
+        for (int i = 0; i > bordersOfViewY.x / g_oneStep; i--)
         {
-            MyLine line(indent, heightIndentation, -indent, heightIndentation);
+            Line line(indent, heightIndentation, -indent, heightIndentation);
             lines.push_back(line);
-            text.setString(std::to_string(i));
+            text.setString(std::to_string(abs(i)));
             sf::Vertex* textPos = line.getVertices();
             textPos->position.x += 8;
             text.setPosition(textPos->position);
@@ -183,10 +183,11 @@ void DrawField(sf::RenderWindow& window)
             }
             heightIndentation -= g_oneStep;
         }
+        //down
         heightIndentation = 0;
-        for (size_t i = 0; i < g_lineLength / g_oneStep; i++)
+        for (int i = 0; i < bordersOfViewY.y / g_oneStep; i++)
         {
-            MyLine line(indent, heightIndentation, -indent, heightIndentation);
+            Line line(indent, heightIndentation, -indent, heightIndentation);
             lines.push_back(line);
             text.setString('-' + std::to_string(i));
             sf::Vertex* textPos = line.getVertices();
@@ -215,8 +216,8 @@ void DrawField(sf::RenderWindow& window)
     text.setString("Y");
     text.setPosition(sf::Vector2f(30.0f, -g_height / 2.0f));
     window.draw(text);
-    MyLine lineX(-g_lineLength, 0.f, g_lineLength, 0.f);
-    MyLine lineY(0.0f, -g_lineLength, 0.0f, g_lineLength);
+    Line lineX(bordersOfViewX.x, 0.f, bordersOfViewX.y, 0.f);
+    Line lineY(0.0f, bordersOfViewY.x, 0.0f, bordersOfViewY.y);
     window.draw(lineX.getVertices(), 2, sf::Lines);
     window.draw(lineY.getVertices(), 2, sf::Lines);
 

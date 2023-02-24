@@ -231,7 +231,7 @@ void Function::calculateTokens()
 	createTokensFromExpression(m_name);
 	createPostfixFromTokens();
 }
-double Function::findValueY()
+double Function::calculateValueY()
 {
 	std::stack<double> s;
 
@@ -260,7 +260,7 @@ double Function::findValueY()
 
 	return s.top();
 }
-void Function::calculate(sf::RenderWindow& window,float lineLength,int oneStep)
+void Function::calculate(sf::RenderWindow& window,int oneStep)
 {
 	m_lines.clear();
 	sf::View view = window.getView();
@@ -269,15 +269,11 @@ void Function::calculate(sf::RenderWindow& window,float lineLength,int oneStep)
 	sf::Vector2f bordersOfViewX = { centerOfViewport.x - sizeOfViewport.x / 2.0f,centerOfViewport.x + sizeOfViewport.x / 2.0f };
 	sf::Vector2f oldPosDot = {};
 	bool first = true;
-	for (float i = -lineLength; i < lineLength; i += 2.0f)
+	for (float i = bordersOfViewX.x; i < bordersOfViewX.y; i += 2.0f)
 	{
-		if (i < bordersOfViewX.x || i > bordersOfViewX.y)
-		{
-			continue;
-		}
 		float x = i / oneStep;
 		m_variables["x"] = x;
-		float y = findValueY();
+		float y = calculateValueY();
 		if (y == 0.0f)
 		{
 			m_intersectionWithAxisX.insert({ x,y });
@@ -294,7 +290,7 @@ void Function::calculate(sf::RenderWindow& window,float lineLength,int oneStep)
 			oldPosDot.y = -j;
 			first = false;
 		}
-		MyLine line(oldPosDot.x, oldPosDot.y, i, -j);
+		Line line(oldPosDot.x, oldPosDot.y, i, -j);
 		line.setColor(m_color);
 		m_lines.push_back(line);
 		oldPosDot.x = i;
@@ -303,11 +299,11 @@ void Function::calculate(sf::RenderWindow& window,float lineLength,int oneStep)
 	m_calculated = true;
 }
 
-void Function::draw(sf::RenderWindow& window, float lineLength, int oneStep)
+void Function::draw(sf::RenderWindow& window, int oneStep)
 {
 	if (!m_calculated)
 	{
-		calculate(window, lineLength,oneStep);
+		calculate(window,oneStep);
 	}
     for (size_t i = 0; i < m_lines.size();i++)
     {
@@ -323,7 +319,7 @@ void Function::draw(sf::RenderWindow& window, float lineLength, int oneStep)
 	if (ImGui::Button("Calculate"))
 	{
 		m_variables["x"] = m_x;
-		m_y = findValueY();
+		m_y = calculateValueY();
 	}
 	ImGui::Text((std::string("Y: ") + std::to_string(m_y)).c_str());
 	

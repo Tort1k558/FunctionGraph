@@ -310,7 +310,7 @@ void Function::draw(sf::RenderWindow& window, int oneStep)
         window.draw(m_lines[i].getVertices(), 2, sf::Lines);
     }
 	ImGui::Begin(m_name.c_str());
-	ImGui::InputText("Function name", m_newName.data(), 256);
+	ImGui::InputText("Function name", m_newName.data(), 1024);
 	if (ImGui::Button("setName"))
 	{
 		setName(m_newName);

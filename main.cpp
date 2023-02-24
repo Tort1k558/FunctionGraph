@@ -133,8 +133,6 @@ void DrawField(sf::RenderWindow& window)
         lines.clear();
         texts.clear();
         const int indent = 5;
-        std::cout << "X1: " << bordersOfViewX.x << std::endl;
-        std::cout << "X2: " << bordersOfViewX.y << std::endl;
         float widthIndentation = 0.0f;
         //left
         for (int i = 0; i > bordersOfViewX.x / g_oneStep; i--)
@@ -165,8 +163,6 @@ void DrawField(sf::RenderWindow& window)
             }
             widthIndentation += g_oneStep;
         }
-        std::cout << "Y1: " << bordersOfViewY.x << std::endl;
-        std::cout << "Y2: " << bordersOfViewY.y << std::endl;
         //up
         float heightIndentation = 0.0f;
         for (int i = 0; i > bordersOfViewY.x / g_oneStep; i--)
